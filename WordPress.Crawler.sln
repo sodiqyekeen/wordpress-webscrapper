@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30225.117
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WordPress.Crawler.Shared", "WordPress.Crawler.Shared\WordPress.Crawler.Shared.csproj", "{C4BB34B2-1526-4B4D-8208-ABEDC256F642}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WordPress.Crawler.UI", "WordPress.Crawler.UI\WordPress.Crawler.UI.csproj", "{D6D228AB-9788-4526-88A7-B190B079C6BC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WordPress.Crawler.Service.Publisher", "WordPress.Crawler.Service.Publisher\WordPress.Crawler.Service.Publisher.csproj", "{BD6EFD2B-C5D6-4939-B916-FAEC315A67FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordPress.Crawler.Service.Fetcher", "WordPress.Crawler.Service.Fetcher\WordPress.Crawler.Service.Fetcher.csproj", "{CBFBE0B3-A01E-4B7C-A8EB-2FBE89E0C3C4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C4BB34B2-1526-4B4D-8208-ABEDC256F642}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4BB34B2-1526-4B4D-8208-ABEDC256F642}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4BB34B2-1526-4B4D-8208-ABEDC256F642}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4BB34B2-1526-4B4D-8208-ABEDC256F642}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6D228AB-9788-4526-88A7-B190B079C6BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6D228AB-9788-4526-88A7-B190B079C6BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6D228AB-9788-4526-88A7-B190B079C6BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6D228AB-9788-4526-88A7-B190B079C6BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD6EFD2B-C5D6-4939-B916-FAEC315A67FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD6EFD2B-C5D6-4939-B916-FAEC315A67FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD6EFD2B-C5D6-4939-B916-FAEC315A67FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD6EFD2B-C5D6-4939-B916-FAEC315A67FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBFBE0B3-A01E-4B7C-A8EB-2FBE89E0C3C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBFBE0B3-A01E-4B7C-A8EB-2FBE89E0C3C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBFBE0B3-A01E-4B7C-A8EB-2FBE89E0C3C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBFBE0B3-A01E-4B7C-A8EB-2FBE89E0C3C4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1C1BCB98-E79C-4681-8A80-49D1B93D7112}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,45 @@
+﻿@using WordPress.Crawler.Shared.Models;
+@using WordPress.Crawler.Shared.Extensions;
+
+<div class="col mb-4">
+    <div class="card h-100">
+        <img src="@Post.Media.FilePath.ToRelativePath()" class="card-img-top" alt="...">
+        <div class="card-header">
+            <h5>@Post.Title</h5>
+        </div>
+        <div class="card-body" style="max-height:200px; overflow:auto;">
+            <p id="@Post.PostId" class="card-text">
+                @Post.Content
+            </p>
+        </div>
+        <div class="card-footer">
+            <button class="btn btn-outline-primary btm-sm" @onclick="(e => ExtractText(Post))">Extract</button>
+            @*<button class="btn btn-outline-primary btm-sm" @onclick="(e => GetWordBag(post.Content))">WordBag</button>*@
+            <button class="btn btn-outline-secondary btn-sm" @onclick="(e => Copy(Post.Content))">Copy</button>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public WpPost Post { get; set; }
+
+    [Inject]
+    IJSRuntime JSRuntime { get; set; }
+
+    private void ExtractText(WpPost post) =>
+        post.Content = PostExtention.ToPlainText(post.Content);
+
+    private async Task Copy(string text) =>
+        await JSRuntime.InvokeVoidAsync("copyToClipboard", text);
+
+    
+
+    //private void GetWordBag(string text)
+    //{
+    //    if (!string.IsNullOrEmpty(text))
+    //    {
+    //        var wordBag = CrawlerService.ProduceWordBag(text);
+    //    }
+    //}
+}

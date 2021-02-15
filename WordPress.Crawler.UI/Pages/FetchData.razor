@@ -1,0 +1,169 @@
+﻿@page "/fetchdata"
+
+@using WordPress.Crawler.Shared.Services
+@using WordPressPCL.Models;
+@using WordPress.Crawler.UI.Models;
+@using WordPress.Crawler.Shared.Models; 
+@inject CrawlerService CrawlerService
+
+    <div>
+        <h1>WordPress Crawler</h1>
+
+        <p>This component demonstrates fetching data from a WordPress site.</p>
+
+        <div class="col-md-4">
+            <EditForm Model="crawlerRequest" OnValidSubmit="FetchDataAsync">
+                <ValidationSummary />
+                <DataAnnotationsValidator />
+                <div class="form-group">
+                    <InputText @bind-Value="crawlerRequest.Url" class="form-control" placeholder="URL" />
+                </div>
+                @if (fetched)
+                {
+                    <button class="btn btn-secondary" @onclick="Reset" type="reset">Reset</button>
+                }
+                else
+                {
+                    @if (submitClicked)
+                    {
+                        <button type="button" class="btn btn-outline-secondary disabled">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Loading...
+                        </button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-outline-secondary" type="submit">Fetch</button>
+                    }
+                }
+            </EditForm>
+        </div>
+
+        @*@if (posts != null)
+        {
+
+            <div class="mt-4">
+                <span class="text-success">Fetched @posts.Count() posts.</span>
+                <div class="row row-cols-1 row-cols-md-3">
+                    @foreach (var post in posts)
+                    {
+                        <div class="col mb-4">
+                            <div class="card h-100">
+                                <img src="..." class="card-img-top" alt="...">
+                                <div class="card-header">
+                                    <h5>@post.Title.Rendered</h5>
+                                    <small class="text-muted">@post.Link</small>
+                                </div>
+                                <div class="card-body" style="max-height:200px; overflow:auto;">
+                                    @{ var content = post.Content.Raw ?? post.Content.Rendered;
+                                        string id = $"content{post.Id}";
+                                    }
+                                    <p id="@id" class="card-text">
+                                        @content
+                                    </p>
+                                </div>
+                                <div class="card-footer">
+                                    <button class="btn btn-outline-primary btm-sm" @onclick="(e => ExtractText(post))">Extract</button>
+                                    <button class="btn btn-outline-primary btm-sm" @onclick="(e => GetWordBag(post.Content.Raw))">WordBag</button>
+                                    <button class="btn btn-outline-secondary btn-sm" @onclick="(e => Copy(post.Content.Raw ?? post.Content.Rendered))">Copy</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }*@
+
+
+        @if (posts != null)
+        {
+            @*<div class="row mt-4">
+                <div class="col">
+                    <button class="btn btn-primary btn-sm" @onclick="CleanPosts">Clean Post</button>
+                </div>
+            </div>*@
+            <div class="mt-4">
+                <span class="text-success">Fetched @posts.Count() posts.</span>
+                <div class="row row-cols-1 row-cols-md-3">
+                    @foreach (var post in posts)
+                    {
+                        <div class="col mb-4">
+                            <div class="card h-100">
+                                @*<img src="..." class="card-img-top" alt="...">*@
+                                <div class="card-header">
+                                    <h5>@post.Title</h5>
+                                </div>
+                                <div class="card-body" style="max-height:200px; overflow:auto;">
+                                    
+                                    <p id="@post.PostId" class="card-text">
+                                        @post.Content
+                                    </p>
+                                </div>
+                                <div class="card-footer">
+                                    <button class="btn btn-outline-primary btm-sm" @onclick="(e => ExtractText(post))">Extract</button>
+                                    <button class="btn btn-outline-primary btm-sm" @onclick="(e => GetWordBag(post.Content))">WordBag</button>
+                                    <button class="btn btn-outline-secondary btn-sm" @onclick="(e => Copy(post.Content))">Copy</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+@code {
+    //private IEnumerable<Post> posts;
+    private IEnumerable<WpPost> posts;
+    private CrawlerRequest crawlerRequest = new CrawlerRequest();
+    private bool submitClicked = false;
+    private bool fetched;
+
+    [Inject]
+    IJSRuntime JSRuntime { get; set; }
+
+    private async Task FetchDataAsync()
+    {
+        submitClicked = true;
+         await CrawlerService.FetchPostAsync(crawlerRequest.Url);
+        fetched = true;
+    }
+
+    private void Reset()
+    {
+        posts = null;
+        fetched = false;
+        submitClicked = false;
+    }
+
+    //private void CleanPosts()
+    //{
+    //    var _posts = posts;
+    //    posts = null;
+    //    posts = CrawlerService.CleanPost(_posts);
+    //}
+
+    //private void ExtractText(Post post)
+    //{
+    //    var plainText = CrawlerService.ExtractPostText(post);
+    //    post.Content.Raw = plainText;
+    //} 
+    private void ExtractText(WpPost post)
+    {
+        post.Content = CrawlerService.ExtractPostText(post);
+        
+    }
+
+    private async Task Copy(string text)
+    {
+        await JSRuntime.InvokeVoidAsync("copyToClipboard", text);
+    }
+
+    private void GetWordBag(string text)
+    {
+        if (!string.IsNullOrEmpty(text))
+        {
+            var wordBag = CrawlerService.ProduceWordBag(text);
+        }
+    }
+}

@@ -1,0 +1,10 @@
+﻿{
+  "profiles": {
+    "WordPress.Crawler.Service.Fetcher": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

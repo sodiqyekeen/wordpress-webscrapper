@@ -1,0 +1,10 @@
+﻿{
+  "profiles": {
+    "WordPress.Crawler.Service.Publisher": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

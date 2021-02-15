@@ -1,0 +1,74 @@
+﻿@page "/"
+@using WordPress.Crawler.Shared.Services;
+@using WordPress.Crawler.Shared.Models;
+@using WordPress.Crawler.UI.Component;
+@inject CrawlerService CrawlerService;
+@using Hangfire;
+@using WordPress.Crawler.Shared.Extensions
+@using ClosedXML.Excel 
+
+@if (posts != null)
+{
+    <div class="mt-4">
+        <span class="text-success">Fetched @posts.Count() posts.</span>
+        @*<button class="btn btn-secondary" @onclick="StartPublisher">Publish Posts</button>*@
+        <div class="row row-cols-1 row-cols-md-3">
+            @foreach (var post in posts)
+            {
+                <PostWidget Post="post" />
+            }
+        </div>
+    </div>
+}
+else
+{
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+}
+
+
+@code{
+
+    private List<WpPost> posts;
+    private List<TestPost> plainPostContents;
+
+    protected override async Task OnInitializedAsync()
+    {
+        posts = (await CrawlerService.GetPosts()).ToList();
+        // plainPostContents = string.Join(",", posts.Select(p =>  p.Content.ToPlainText() ));
+        plainPostContents = posts.Select(p => new TestPost { Content = p.Content.ToPlainText(), Title = p.Title }).ToList();
+
+        string csv = string.Join(",", plainPostContents);
+        //var table = plainPostContents.ToDataTableV2();
+
+        //XLWorkbook _workBook = new XLWorkbook();
+        //_workBook.AddWorksheet(table, "Posts");
+        //string _newFileName = "wwwroot\\posts.xlsx";
+        //_workBook.SaveAs(_newFileName);
+
+        System.IO.File.WriteAllText("wwwroot\\posts.csv", csv);
+    }
+
+    class TestPost
+    {
+        public string Title { get; set; }
+        public string Content { get; set; }
+    }
+
+
+
+    //private async Task StartPublisher()
+    //{
+    //    _= BackgroundJob.Enqueue(() => CrawlerService.PublishPost());
+    //    posts = (await CrawlerService.GetPosts()).ToList();
+    //}
+
+    //public void ReloadPage()
+    //{
+    //    NavigationManager.NavigateTo(NavigationManager.BaseUri, true);
+
+    //}
+}
